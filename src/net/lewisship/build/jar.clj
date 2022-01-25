@@ -15,14 +15,17 @@
   "target/classes")
 
 (defn create-jar
-  "Creates a Jar file for the project under `target`."
-  [{:keys [project-name version]}]
+  "Creates a Jar file for the project under `target`.
+
+  :url is the project URL (aka, the home page)."
+  [{:keys [project-name version url]}]
   (let [basis (b/create-basis)
         output-file (jar-file project-name version)]
     (b/write-pom {:class-dir class-dir
                   :lib project-name
                   :version version
                   :basis basis
+                  :scm {:url url}
                   :src-dirs ["src"]
                   :resource-dirs ["resources"]})
     (b/copy-dir {:src-dirs ["src" "resources"]
