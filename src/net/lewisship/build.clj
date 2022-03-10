@@ -1,6 +1,14 @@
 (ns net.lewisship.build
   "Utilities for creating build commands.")
 
+(defmacro requiring-invoke
+  "Uses `requiring-resolve` to invoke a fully qualified (but not quoted name);
+
+  e.g. `(requiring-invoke net.lewisship.build.jar/deploy-jar jar-params)`"
+  [sym & params]
+  (assert (qualified-symbol? sym))
+  `((requiring-resolve '~sym) ~@params))
+
 (defmacro delegate
   "Creates a function that uses `requiring-resolve` to delegate to a real implementation.
 
