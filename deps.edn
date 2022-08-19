@@ -1,4 +1,4 @@
 {:deps
- {io.github.clojure/tools.build {:git/tag "v0.7.5" :git/sha "34727f7"}
+ {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}
   slipset/deps-deploy {:mvn/version "0.2.0"}}
  }
