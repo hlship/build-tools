@@ -22,3 +22,7 @@
    `(defn ~local-sym
       [params#]
       ((requiring-resolve '~to-sym) params#))))
+
+(delegate net.lewisship.build.jar/create-jar)
+(delegate new.lewisship.build.jar/deploy-jar)
+(delegate codox net.lewisship.build.codox/generate)
