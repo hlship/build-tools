@@ -3,13 +3,6 @@
 A tiny collection of command line tools for simple project deployment to Clojars and the generation
 of codox-based documentation.
 
-Dependency coordinate (in the `:build` alias):
-
-```clojure
-{io.github.hlship/build-tools
- {:git/tag "v0.4" :git/sha "05704808"}
-```
-
 The main namespace is `net.lewisship.build`.
 
 You might find the `requiring-invoke` and `delegate` macros to be useful in your own builds.
