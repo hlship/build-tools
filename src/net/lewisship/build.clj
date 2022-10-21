@@ -9,20 +9,6 @@
   (assert (qualified-symbol? sym))
   `((requiring-resolve '~sym) ~@params))
 
-(defmacro delegate
-  "Creates a function that uses `requiring-resolve` to delegate to a real implementation.
-
-   This is a common pattern meant to minimize load times for the build tool."
-  ([to-sym]
-   (assert (qualified-symbol? to-sym))
-   `(delegate ~(-> to-sym name symbol) ~to-sym))
-  ([local-sym to-sym]
-   (assert (simple-symbol? local-sym))
-   (assert (qualified-symbol? to-sym))
-   `(defn ~local-sym
-      [params#]
-      ((requiring-resolve '~to-sym) params#))))
-
 (defn create-jar
   "Creates a Jar file for the project under `target`.
 
