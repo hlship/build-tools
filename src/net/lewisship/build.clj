@@ -4,7 +4,7 @@
 (defmacro requiring-invoke
   "Uses `requiring-resolve` to invoke a fully qualified (but not quoted name);
 
-  e.g. `(requiring-invoke net.lewisship.build.jar/deploy-jar jar-params)`"
+  e.g. `(requiring-invoke net.lewisship.build.jar/create-jar jar-params)`"
   [sym & params]
   (assert (qualified-symbol? sym))
   `((requiring-resolve '~sym) ~@params))
@@ -14,30 +14,32 @@
 
   :project-name (qualified symbol, required)
   :version (string. required)
-  :url (string) the project URL (aka, the home page)
+  :scm (map, optional) Maven SCM data, usually just :url
   :src-dirs (coll of strings), defaults to [\"src\"]
   :resource-dirs (coll of strings), defaults to [\"resources\"]
   :class-dir (string) defaults to \"target/classes\"
   :jar-file (string) name of output jar file, defaults to \"target/<project-name>-<version>.jar\"
 
-  Returns the name of the created output file."
+  Returns a map options that can to be passed to deploy-jar."
   [options]
   (requiring-invoke net.lewisship.build.jar/create-jar options))
 
 
 (defn deploy-jar
-  "Deploys a Jar file created by [[create-jar]] to Clojars.
+  "Signs and deploys a JAR artifact, created by [[create-jar]].
 
-  :project-name (qualified symbol, required)
-  :version (string)
-  :jar-file (string) overrides default from project-name and version
-  :class-dir (string) defaults to \"target/classes\"
+  :artifact-id (symbol, required) - artifact to deploy, e.g. 'org.example/my-project
+  :version (string, required) - version of artifact to deploy, e.g., \"1.2.3-rc-1\"
+  :jar-path (string, required) - path to the JAR file to be deployed
+  :pom-path (string, required) - path to the POM file
+  :sign-key-id (string, optional) - used to sign the artifacts
+  :work-dir (string, optional) - directory to write temporary artifacts to
+  (defaults to \"target\")
 
-  Requires environment variable CLOJARS_GPG_ID to be set.
+  The :pom-path is usually computed via clojure.tools.build.api/pom-path.
 
-  Will prompt for GPG passphrase.
-
-  Returns nil."
+  If :sign-key-id is omitted, it is obtained from environment variable CLOJARS_GPG_ID; if
+  that is not set, then a RuntimeException is thrown."
   [options]
   (requiring-invoke net.lewisship.build.jar/deploy-jar options))
 
