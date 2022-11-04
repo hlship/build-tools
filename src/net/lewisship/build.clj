@@ -52,6 +52,8 @@
   :exclusions (coll of qualified symbols) dependencies of Codox to ignore when constructing class path
   :aliases (coll of keyword) aliases to enable when constructing class path
   :codox-config (map) merged with :codox/config from the deps.edn basis
+  :output-path (string, optional) defaults to \"target/doc\"
+   The :codox/config key in deps.edn provides defaults passed to codox; typically contains keys :description and :source-uri.
 
   Returns nil."
   [options]
