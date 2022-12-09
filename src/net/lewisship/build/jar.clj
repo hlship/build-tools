@@ -24,7 +24,7 @@
         output-file (or jar-file
                         (default-jar-file project-name version))
         class-dir' (or class-dir "target/classes")]
-    (b/write-pom {:class-dir class-dir
+    (b/write-pom {:class-dir class-dir'
                   :lib project-name
                   :version version
                   :basis basis
@@ -40,7 +40,7 @@
      :version version
      :jar-path output-file
      :pom-path (b/pom-path {:lib project-name
-                            :class-dir class-dir})}))
+                            :class-dir class-dir'})}))
 
 (defn- sign-path
   "Do the signing of the file and use GPG's pinentry to get the necessary passphrase."
