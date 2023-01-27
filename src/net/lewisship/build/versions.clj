@@ -53,9 +53,9 @@
          (when (contains? #{:rc :beta} stability)
            (str "-" index)))))
 
-(def advance-levels [:major :minor :patch :release :snapshot :beta :rc])
-
 (defn advance
+  "Given parsed version data and a desired stability level, this returns a new version
+   data with the desired stability level and adds/increments/removes the index."
   [{:keys [stability] :as version-data} level]
   (case level
     :major (-> version-data

@@ -20,7 +20,7 @@
   :class-dir (string) defaults to \"target/classes\"
   :jar-file (string) name of output jar file, defaults to \"target/<project-name>-<version>.jar\"
 
-  Returns a map options that can to be passed to deploy-jar."
+  Returns a map of options that can to be passed to deploy-jar."
   [options]
   (requiring-invoke net.lewisship.build.jar/create-jar options))
 
@@ -53,7 +53,8 @@
   :aliases (coll of keyword) aliases to enable when constructing class path
   :codox-config (map) merged with :codox/config from the deps.edn basis
   :output-path (string, optional) defaults to \"target/doc\"
-   The :codox/config key in deps.edn provides defaults passed to codox; typically contains keys :description and :source-uri.
+
+  The :codox/config key in deps.edn provides defaults passed to codox; typically contains keys :description and :source-uri.
 
   Returns nil."
   [options]

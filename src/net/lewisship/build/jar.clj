@@ -36,6 +36,7 @@
     (b/jar {:class-dir class-dir'
             :jar-file output-file})
     (println "Created:" output-file)
+    ;; Return options that can be passed to deploy-jar
     {:artifact-id project-name
      :version version
      :jar-path output-file
