@@ -25,7 +25,9 @@
         output-file (or jar-file
                         (default-jar-file project-name version))
         class-dir' (or class-dir "target/classes")
-        scm' (merge scm (:net.lewisship.build/scm basis))]
+        scm' (merge scm
+                    (:net.lewisship.build/scm basis)
+                    {:tag version})]
     (b/write-pom {:class-dir class-dir'
                   :lib project-name
                   :version version

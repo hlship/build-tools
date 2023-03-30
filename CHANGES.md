@@ -2,7 +2,10 @@
 
 Can now specify :net.lewisship.build.scm map in project's deps.edn.
 
-New :sign-artifacts? option for deploy-jar.
+deploy-jar: new :sign-artifacts? option
+
+jar: Adds the project version as the SCM tag
+
 
 # 0.8 -- 27 Jan 2023
 
