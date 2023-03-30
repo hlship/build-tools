@@ -27,4 +27,5 @@
                           :main "clojure.main"
                           :main-args ["--eval" (pr-str expression)]})]
     (b/process process-params)
+    (println "Documentation written to" (or output-path "target/doc"))
     nil))
