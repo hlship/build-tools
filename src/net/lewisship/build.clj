@@ -19,6 +19,10 @@
   :resource-dirs (coll of strings), defaults to [\"resources\"]
   :class-dir (string) defaults to \"target/classes\"
   :jar-file (string) name of output jar file, defaults to \"target/<project-name>-<version>.jar\"
+  :scm (map, optional) - used to set properties of the output pom file
+
+  :scm is merged on top of the :net.lewisship.build/scm map from the
+  project file.  Typically, this is where :url (the project URL) is specified.
 
   Returns a map of options that can to be passed to deploy-jar."
   [options]
@@ -32,6 +36,8 @@
   :version (string, required) - version of artifact to deploy, e.g., \"1.2.3-rc-1\"
   :jar-path (string, required) - path to the JAR file to be deployed
   :pom-path (string, required) - path to the POM file
+  :sign-artifacts (boolean, optional) - if true (default) then artifacts are signed with GPG prior
+   to upload
   :sign-key-id (string, optional) - used to sign the artifacts
   :work-dir (string, optional) - directory to write temporary artifacts to
   (defaults to \"target\")

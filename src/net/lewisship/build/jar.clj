@@ -5,6 +5,7 @@
             [deps-deploy.gpg :as gpg]
             [cemerick.pomegranate.aether :as aether]))
 
+#_
 (System/setProperty "aether.checksums.forSignature" "true")
 
 (defn ^:private default-jar-file
@@ -23,12 +24,13 @@
         resource-dirs' (or resource-dirs ["resources"])
         output-file (or jar-file
                         (default-jar-file project-name version))
-        class-dir' (or class-dir "target/classes")]
+        class-dir' (or class-dir "target/classes")
+        scm' (merge scm (:net.lewisship.build/scm basis))]
     (b/write-pom {:class-dir class-dir'
                   :lib project-name
                   :version version
                   :basis basis
-                  :scm scm
+                  :scm scm'
                   :src-dirs src-dirs'
                   :resource-dirs resource-dirs'})
     (b/copy-dir {:src-dirs (concat src-dirs' resource-dirs')
@@ -72,6 +74,7 @@
   :jar-path (string, required) - path to the JAR file to be deployed
   :pom-path (string, required) - path to the POM file
   :sign-key-id (string, optional) - used to sign the artifacts
+  :sign-artifacts? (boolean, optional, default: true)
   :work-dir (string, optional) - directory to write temporary artifacts to
   (defaults to \"target\")
 
@@ -80,17 +83,21 @@
   If :sign-key-id is omitted, it is obtained from environment variable CLOJARS_GPG_ID; if
   that is not set, then a RuntimeException is thrown."
   [artifact-data]
-  (let [{:keys [artifact-id version jar-path pom-path sign-key-id work-dir]
-         :or {work-dir "target"}} artifact-data
-        sign-key-id' (or sign-key-id
-                         (System/getenv "CLOJARS_GPG_ID")
-                         (throw (RuntimeException. "CLOJARS_GPG_ID environment variable not set")))
+  (let [{:keys [artifact-id version jar-path pom-path sign-key-id work-dir sign-artifacts?]
+         :or {work-dir "target"
+              sign-artifacts? true}} artifact-data
+        sign-key-id' (when sign-artifacts?
+                       (or sign-key-id
+                           (System/getenv "CLOJARS_GPG_ID")
+                           (throw (RuntimeException. "CLOJARS_GPG_ID environment variable not set"))))
         versioned-pom-path (str work-dir "/" (name artifact-id) "-" version ".pom")
         _ (b/copy-file {:src pom-path
                         :target versioned-pom-path})
         paths [jar-path versioned-pom-path]
-        upload-paths (into paths
-                           (map #(sign-path sign-key-id' %) paths))
+        upload-paths (if sign-artifacts?
+                       (into paths
+                             (map #(sign-path sign-key-id' %) paths))
+                       paths)
         upload-artifacts (d/artifacts version upload-paths)
         aether-coordinates [(symbol artifact-id) version]]
     (aether/deploy :artifact-map upload-artifacts
