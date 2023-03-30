@@ -4,7 +4,7 @@ A tiny collection of command line tools for simple project deployment to Clojars
 of Codox-based documentation.
 
 The main namespace is `net.lewisship.build`.
-This is an API namespace that using `requireing-resolve` to avoid immediate class loading.
+This is an API namespace that uses `requiring-resolve` to avoid immediate class loading.
 
 You might find the `requiring-invoke` macro to be useful in your own builds.
 

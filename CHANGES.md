@@ -1,4 +1,10 @@
-# 0.8 -- UNRELEASED
+# 0.9 -- UNRELEASED
+
+Can now specify :net.lewisship.build.scm map in project's deps.edn.
+
+New :sign-artifacts? option for deploy-jar.
+
+# 0.8 -- 27 Jan 2023
 
 Added optional :output-path option to the generate-codox command.
 
