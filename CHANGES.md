@@ -1,4 +1,4 @@
-# 0.9 -- UNRELEASED
+# 0.9 -- 30 Mar 2023
 
 Can now specify :net.lewisship.build.scm map in project's deps.edn.
 
