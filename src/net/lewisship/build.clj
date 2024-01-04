@@ -24,6 +24,13 @@
   :scm is merged on top of the :net.lewisship.build/scm map from the
   project file.  Typically, this is where :url (the project URL) is specified.
 
+  Inside the :scm map, the :licence key may be one of:
+  - :epl (Eclipse Public License)
+  - :asl (Apache Software License 2.0)
+  - A map with keys :name and :url
+
+  You must specify a license to deploy to Clojars.
+
   Returns a map of options that can to be passed to deploy-jar."
   [options]
   (requiring-invoke net.lewisship.build.jar/create-jar options))

@@ -8,17 +8,36 @@
 #_
 (System/setProperty "aether.checksums.forSignature" "true")
 
-(defn ^:private default-jar-file
+(defn- default-jar-file
   [project-name version]
   (format "target/%s-%s.jar"
           (name project-name)
           version))
 
+(def ^:private licenses
+  {:epl {:name "Eclipse Public License"
+         :url "http://www.eclipse.org/legal/epl-v10.html"}
+   :asl {:name "Apache License, Version 2.0"
+         :url "https://www.apache.org/licenses/LICENSE-2.0.html"}})
+
+(defn- extract-license-info
+  [scm]
+  (when-let [license (:license scm)]
+    (cond
+      (keyword? license)
+      (or (get license license)
+          (throw (ex-info (str "Unknown license: " license)
+                          {:scm scm})))
+
+      (map? license)
+      license                                               ; assume it has the expected keys!
+
+      :else
+      (throw (ex-info "Unexpected license value" {:scm scm})))))
+
 (defn create-jar
   [options]
-  (let [{:keys [project-name version src-dirs resource-dirs class-dir jar-file scm]
-         :or {src-dirs ["src"]
-              resource-dirs ["resources"]}} options
+  (let [{:keys [project-name version src-dirs resource-dirs class-dir jar-file scm]} options
         basis (b/create-basis)
         src-dirs' (or src-dirs ["src"])
         resource-dirs' (or resource-dirs ["resources"])
@@ -27,14 +46,20 @@
         class-dir' (or class-dir "target/classes")
         scm' (merge scm
                     (:net.lewisship.build/scm basis)
-                    {:tag version})]
-    (b/write-pom {:class-dir class-dir'
-                  :lib project-name
-                  :version version
-                  :basis basis
-                  :scm scm'
-                  :src-dirs src-dirs'
-                  :resource-dirs resource-dirs'})
+                    {:tag version})
+        license (extract-license-info scm')]
+    (b/write-pom (cond-> {:class-dir class-dir'
+                          :lib project-name
+                          :version version
+                          :basis basis
+                          :scm (dissoc scm' :license)
+                          :src-dirs src-dirs'
+                          :resource-dirs resource-dirs'}
+
+                         license (assoc :pom-data [[:licenses
+                                                    [:license
+                                                     [:name (:name license)]
+                                                     [:url (:url license)]]]])))
     (b/copy-dir {:src-dirs (concat src-dirs' resource-dirs')
                  :target-dir class-dir'})
     (b/jar {:class-dir class-dir'
