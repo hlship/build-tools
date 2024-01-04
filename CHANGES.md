@@ -1,3 +1,9 @@
+# 0.10 -- 4 Jan 2024
+
+Can now specify a license in the :scm key, e.g., `{:scm {:license :esl}}`.
+Builtin support for :esl (Eclipse Public License) and :asl (Apache Licence, 2.0). Can also specify
+map with :name and :url.
+
 # 0.9 -- 30 Mar 2023
 
 Can now specify :net.lewisship.build.scm map in project's deps.edn.
