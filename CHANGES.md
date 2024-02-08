@@ -1,3 +1,7 @@
+# 0.10.1 -- 8 Feb 2024
+
+Fix bug in license abbreviation.
+
 # 0.10 -- 4 Jan 2024
 
 Can now specify a license in the :scm key, e.g., `{:scm {:license :esl}}`.
@@ -6,7 +10,7 @@ map with :name and :url.
 
 # 0.9 -- 30 Mar 2023
 
-Can now specify :net.lewisship.build.scm map in project's deps.edn.
+Can now specify :net.lewisship.build/scm map in project's deps.edn.
 
 deploy-jar: new :sign-artifacts? option
 

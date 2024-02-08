@@ -25,7 +25,7 @@
   (when-let [license (:license scm)]
     (cond
       (keyword? license)
-      (or (get license license)
+      (or (get licenses license)
           (throw (ex-info (str "Unknown license: " license)
                           {:scm scm})))
 
