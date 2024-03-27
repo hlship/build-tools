@@ -1,3 +1,7 @@
+# 0.10.2 -- 27 Mar 2024
+
+Include :basis and :class-dir in the result from `create-jar`.
+
 # 0.10.1 -- 8 Feb 2024
 
 Fix bug in license abbreviation.

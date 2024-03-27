@@ -69,6 +69,8 @@
     {:artifact-id project-name
      :version version
      :jar-path output-file
+     :class-dir class-dir'
+     :basis basis
      :pom-path (b/pom-path {:lib project-name
                             :class-dir class-dir'})}))
 
