@@ -1,5 +1,6 @@
 # 0.11.0 -- UNRELEASED
 
+A version string may now be 'alpha' (as well a 'beta' or 'rc').
 
 # 0.10.2 -- 27 Mar 2024
 
