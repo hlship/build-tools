@@ -17,6 +17,9 @@
 
     "4.3.2-SnapShot" {:major 4 :minor 3 :patch 2 :stability :snapshot}
 
+    "1.2.3-alpha-3" {:major 1 :minor 2 :patch 3 :stability :alpha :index 3}
+
+
     "1.2.3-Rc-3" {:major 1 :minor 2 :patch 3 :stability :rc :index 3}
 
     "1.2.3-beta-9999" {:major 1 :minor 2 :patch 3 :stability :beta :index 9999}))
@@ -56,6 +59,7 @@
     "1.2.3" :snapshot "1.2.3-SNAPSHOT"
     "1.2.3" :rc "1.2.3-rc-1"
     "1.2.3" :beta "1.2.3-beta-1"
+    "1.2.3" :alpha "1.2.3-alpha-1"
     "1.2.3-rc-9" :rc "1.2.3-rc-10"
     "1.2.3-beta-9" :beta "1.2.3-beta-10"
     "1.2.3-rc-9" :release "1.2.3"

@@ -2,7 +2,7 @@
   "Utilities to parse strings to version data, advance at a level, and unparse
   versions.
 
-  Opinionated:  -SNAPSHOT can't have an index, -beta and -rc must have an index.
+  Opinionated:  -SNAPSHOT can't have an index, -alpha, -beta and -rc must have an index.
   Releases are always major.minor.patch."
   (:require [clojure.string :as str]))
 
@@ -16,7 +16,7 @@
                \. (\d+)  # minor
                \. (\d+)  # patch
                (\-
-                 (snapshot|beta|rc)
+                 (snapshot|alpha|beta|rc)
                  (\-
                    (\d+))?)?
                \s*"
@@ -25,7 +25,7 @@
                      (-> stability str/lower-case keyword))]
     (when (or (nil? match)
               (not= (some? index)
-                    (contains? #{:beta :rc} stability')))
+                    (contains? #{:alpha :beta :rc} stability')))
       (throw (RuntimeException. (format "Version '%s' is not parsable" version))))
     (cond-> {:major (parse-long major)
              :minor (parse-long minor)
@@ -37,6 +37,7 @@
   ;; The rules about snapshot versions and that SNAPSHOT is all caps is very specific
   ;; to how Clojars handles snapshots.
   {:snapshot "SNAPSHOT"
+   :alpha "alpha"
    :beta "beta"
    :rc "rc"})
 
@@ -50,7 +51,7 @@
          patch
          (when (some? stability)
            (str "-" (stability->label stability)))
-         (when (contains? #{:rc :beta} stability)
+         (when (contains? #{:alpha :rc :beta} stability)
            (str "-" index)))))
 
 (defn advance
@@ -70,12 +71,12 @@
                (update :patch inc)
                (dissoc :index :stability))
     :release (if (nil? stability)
-               (throw (IllegalStateException. "Already a release version, not a snapshot, beta, or rc"))
+               (throw (IllegalStateException. "Already a release version, not a snapshot, alpha, beta, or rc"))
                (-> version-data
                    (dissoc :index :stability)))
     :snapshot (-> version-data
                   (assoc :stability :snapshot)
                   (dissoc :index))
-    (:beta :rc) (if (= stability level)
+    (:alpha :beta :rc) (if (= stability level)
                   (update version-data :index inc)
                   (assoc version-data :stability level :index 1))))
