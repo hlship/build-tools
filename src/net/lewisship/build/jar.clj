@@ -1,12 +1,10 @@
 (ns net.lewisship.build.jar
   "Utilities to build a Jar and deploy it to Clojars."
-  (:require [clojure.tools.build.api :as b]
+  (:require [clojure.set :as set]
+            [clojure.tools.build.api :as b]
             [deps-deploy.deps-deploy :as d]
             [deps-deploy.gpg :as gpg]
             [cemerick.pomegranate.aether :as aether]))
-
-#_
-(System/setProperty "aether.checksums.forSignature" "true")
 
 (defn- default-jar-file
   [project-name version]
@@ -37,8 +35,8 @@
 
 (defn create-jar
   [options]
-  (let [{:keys [project-name version src-dirs resource-dirs class-dir jar-file scm]} options
-        basis (b/create-basis)
+  (let [{:keys [project-name version src-dirs resource-dirs class-dir jar-file scm aliases]} options
+        basis (b/create-basis {:aliases aliases})
         src-dirs' (or src-dirs ["src"])
         resource-dirs' (or resource-dirs ["resources"])
         output-file (or jar-file
@@ -73,6 +71,11 @@
      :basis basis
      :pom-path (b/pom-path {:lib project-name
                             :class-dir class-dir'})}))
+
+(defn install-jar
+  [options]
+  (b/install (set/rename-keys options {:artifact-id :lib
+                                       :jar-path :jar-file})))
 
 (defn- sign-path
   "Do the signing of the file and use GPG's pinentry to get the necessary passphrase."

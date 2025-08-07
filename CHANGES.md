@@ -1,4 +1,10 @@
-# 0.11.0 -- UNRELEASED
+# 0.12.0 -- 7 Aug 2025
+
+Added new :aliases option to `create-jar`; optional seq of aliases to use when creating the basis.
+
+Added an `install-jar` function that takes the results from `create-jar`.
+ 
+# 0.11.0 -- 27 Mar 2025
 
 A version string may now be 'alpha' (as well a 'beta' or 'rc').
 

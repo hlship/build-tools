@@ -35,6 +35,11 @@
   [options]
   (requiring-invoke net.lewisship.build.jar/create-jar options))
 
+(defn install-jar
+  "Installs a JAR to local Maven repository, as created by [[create-jar]]."
+  [options]
+  (requiring-invoke net.lewisship.build.jar/install-jar options))
+
 
 (defn deploy-jar
   "Signs and deploys a JAR artifact, created by [[create-jar]].
