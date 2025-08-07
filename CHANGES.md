@@ -1,3 +1,7 @@
+# 0.12.1 -- 7 Aug 2025
+
+Revert to version 0.2.1 of slipset/deps-deploy.
+
 # 0.12.0 -- 7 Aug 2025
 
 Added new :aliases option to `create-jar`; optional seq of aliases to use when creating the basis.
